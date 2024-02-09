@@ -1,0 +1,43 @@
+{
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.PersonalDataManagerUser",
+      "description": "PersonalDataManagerUser"
+    },
+    {
+      "name": "$XSAPPNAME.support",
+      "description": "support"
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "admin"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "PersonalDataManagerUser",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.PersonalDataManagerUser"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "support",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.support"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "admin",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
+    }
+  ]
+}

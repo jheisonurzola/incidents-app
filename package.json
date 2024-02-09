@@ -13,10 +13,13 @@
   },
   "dependencies": {
     "@sap/cds": ">=7",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec": "^3",
+    "@sap/cds-hana": "^2"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/cds-dk": "^7",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
     "chai": "^4.3.7",
@@ -56,7 +59,8 @@
             }
           }
         }
-      }
+      },
+      "db": "hana"
     }
   },
   "private": true
