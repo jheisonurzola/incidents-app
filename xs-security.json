@@ -11,6 +11,13 @@
     {
       "name": "$XSAPPNAME.admin",
       "description": "admin"
+    },
+    {
+      "name": "$XSAPPNAME.PersonalDataManagerUser",
+      "description": "Authority for Personal Data Manager",
+      "grant-as-authority-to-apps": [
+        "$XSSERVICENAME(incidents-information)"
+      ]
     }
   ],
   "attributes": [],
