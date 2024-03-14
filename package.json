@@ -60,7 +60,9 @@
           }
         }
       },
-      "db": "hana"
+      "[production]": {
+        "db": "hana"
+      }
     }
   },
   "private": true

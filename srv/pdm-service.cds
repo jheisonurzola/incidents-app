@@ -34,7 +34,7 @@ service PDMService @(path: '/pdm') {
             surname: lastName,
             given  : firstName
         },
-        email: EMailAddress //how to use the type here?
+        email: [{address: email}]
     });
 
 };

@@ -1,0 +1,34 @@
+{
+    "dataPrivacyConfiguration": {
+        "configType": "information",
+        "applicationConfiguration": {
+            "applicationName": "incidents-information",
+            "applicationDescription": "DPI NextGen Bookshop CAP Reference Application",
+            "applicationTitle": "DPI NextGen Bookshop"
+        },
+        "informationConfiguration": {
+            "applicationConfiguration": {
+                "dataSubjectDeletionAgent": "retention-manager",
+                "retentionApplicationName": "incidents-retention",
+                "disableDataSubjectCorrection": true,
+                "cacheControl": "no-cache"
+            },
+            "components": [
+                {
+                    "componentName": "incidents-srv",
+                    "componentBaseURL": "~{srv-api/srv-url}",
+                    "serviceEndPoints": [
+                        {
+                            "serviceName": "dpi-service",
+                            "serviceFormat": "odata-v4",
+                            "annotationFormat": "v4",
+                            "serviceEndPoint": "/pdm",
+                            "appPaginationEnabled": true,
+                            "cacheControl": "no-cache"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
