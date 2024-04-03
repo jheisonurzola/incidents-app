@@ -34,21 +34,21 @@ modules:
     requires:
       - name: incidents-db
 
-  - name: incidents
-    type: approuter.nodejs
-    path: app/
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
-      - name: incidents-auth
+#  - name: incidents
+#    type: approuter.nodejs
+#    path: app/
+#    parameters:
+#      keep-existing-routes: true
+#      disk-quota: 256M
+#      memory: 256M
+#    requires:
+#      - name: srv-api
+#        group: destinations
+#        properties:
+#          name: srv-api # must be used in xs-app.json as well
+#          url: ~{srv-url}
+#          forwardAuthToken: true
+#      - name: incidents-auth
 
 resources:
   - name: incidents-db
@@ -78,5 +78,4 @@ resources:
         xs-security:
           xsappname: incidents-information-${org}-${space}
           authorities:
-            - $ACCEPT_GRANTED_AUTHORITIES                                                                                     -
-              $ACCEPT_GRANTED_AUTHORITIES
+            - $ACCEPT_GRANTED_AUTHORITIES

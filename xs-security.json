@@ -1,10 +1,6 @@
 {
   "scopes": [
     {
-      "name": "$XSAPPNAME.PersonalDataManagerUser",
-      "description": "PersonalDataManagerUser"
-    },
-    {
       "name": "$XSAPPNAME.support",
       "description": "support"
     },

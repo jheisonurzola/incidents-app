@@ -16,7 +16,7 @@
             "components": [
                 {
                     "componentName": "incidents-srv",
-                    "componentBaseURL": "~{srv-api/srv-url}",
+                    "componentBaseURL": "https://cdsnode-cds-students-incidents-srv.cfapps.sap.hana.ondemand.com",
                     "serviceEndPoints": [
                         {
                             "serviceName": "dpi-service",
