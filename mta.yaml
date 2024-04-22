@@ -38,25 +38,25 @@ modules:
       - name: new-incidents-db
 
 resources:
-  - name: incidents-db
+  - name: new-incidents-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name:
-      new-incidents-information type:
-        org.cloudfoundry.managed-service requires:
-          - name: srv-api
-        parameters:
-          service-name: new-incidents-information
-          service: data-privacy-integration-service
-          service-plan: data-privacy-internal
-          path: ./pdm-config.json
-          config:
-            xs-security:
-              xsappname: new-incidents-information-${org}-${space}
-              authorities:
-                - $ACCEPT_GRANTED_AUTHORITIES
+  - name: new-incidents-information 
+    type: org.cloudfoundry.managed-service 
+    requires:
+      - name: srv-api
+    parameters:
+      service-name: new-incidents-information
+      service: data-privacy-integration-service
+      service-plan: data-privacy-internal
+      path: ./pdm-config.json
+      config:
+        xs-security:
+          xsappname: new-incidents-information-${org}-${space}
+          authorities:
+            - $ACCEPT_GRANTED_AUTHORITIES
   - name: new-incidents-auth
     type: org.cloudfoundry.managed-service
     parameters:
