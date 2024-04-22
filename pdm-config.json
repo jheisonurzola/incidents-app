@@ -1,0 +1,34 @@
+{
+    "dataPrivacyConfiguration": {
+        "configType": "information",
+        "applicationConfiguration": {
+            "applicationName": "new-incidents-information",
+            "applicationDescription": "DPI NextGen Incidents CAP Reference Application",
+            "applicationTitle": "DPI NextGen Incidents"
+        },
+        "informationConfiguration": {
+            "applicationConfiguration": {
+                "dataSubjectDeletionAgent": "retention-manager",
+                "retentionApplicationName": "new-incidents-retention",
+                "disableDataSubjectCorrection": true,
+                "cacheControl": "no-cache"
+            },
+            "components": [
+                {
+                    "componentName": "new-incidents-srv",
+                    "componentBaseURL": "~{srv-api/srv-url}",
+                    "serviceEndPoints": [
+                        {
+                            "serviceName": "dpi-service",
+                            "serviceFormat": "odata-v4",
+                            "annotationFormat": "v4",
+                            "serviceEndPoint": "/pdm",
+                            "appPaginationEnabled": true,
+                            "cacheControl": "no-cache"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
