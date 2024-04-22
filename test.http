@@ -1,0 +1,13 @@
+
+PUT 
+
+###
+
+get https://dpiv2-onboarding.cfapps.sap.hana.ondemand.com/dpi/service/subscribe/onboarding/callback/v1/tenants
+
+###
+
+DELETE /dpi/service/subscribe/onboarding/callback/v1/tenants
+Host: dpiv2-onboarding.cfapps.sap.hana.ondemand.com
+Authorization: Bearer sb-incidents-information-cdsnode-cds-students!b1581|data-privacy-integration-service!b6886:ErKko3r5Mgepl4fvqpmgMkJZTdg=
+Content-Type: application/json
