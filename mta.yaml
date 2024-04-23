@@ -11,7 +11,7 @@ build-parameters:
         - npm ci
         - npx cds build --production
 modules:
-  - name: new-incidents-srv
+  - name: incidents-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -25,44 +25,71 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: new-incidents-db
-      - name: new-incidents-information
-      - name: new-incidents-auth
+      - name: incidents-db
+      - name: incidents-information
+      - name: incidents-auth
 
-  - name: new-incidents-db-deployer
+  - name: incidents-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: new-incidents-db
+      - name: incidents-db
 
 resources:
-  - name: new-incidents-db
+  - name: incidents-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: new-incidents-information 
-    type: org.cloudfoundry.managed-service 
+  - name: incidents-information
+    type: org.cloudfoundry.managed-service
     requires:
       - name: srv-api
     parameters:
-      service-name: new-incidents-information
+      service-name: incidents-information
       service: data-privacy-integration-service
       service-plan: data-privacy-internal
-      path: ./pdm-config.json
       config:
-        xs-security:
-          xsappname: new-incidents-information-${org}-${space}
-          authorities:
-            - $ACCEPT_GRANTED_AUTHORITIES
-  - name: new-incidents-auth
+        xs-security: 
+          xsappname: incidents-information-${org}-${space}                                                     
+          authorities:                                                                                        
+            - $ACCEPT_GRANTED_AUTHORITIES                                                                         
+        dataPrivacyConfiguration: 
+          configType: information
+          applicationConfiguration: 
+            applicationName: incidents-information
+            applicationDescription: DPI NextGen Bookshop CAP Reference Application
+            applicationTitle: DPI NextGen Bookshop
+          informationConfiguration: 
+            applicationConfiguration:   
+              dataSubjectDeletionAgent: retention-manager
+              retentionApplicationName: incidents-retention
+              disableDataSubjectCorrection: true  
+              cacheControl: no-cache
+            components: 
+              - componentName: incidents-srv
+                componentBaseURL: ~{srv-api/srv-url}
+                serviceEndPoints:  
+                  - serviceName: dpi-service
+                    serviceFormat: odata-v4
+                    annotationFormat: v4
+                    serviceEndPoint: /pdm
+                    appPaginationEnabled : true  
+                    cacheControl: no-cache
+        
+
+  - name: incidents-auth
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
-      path: ./xs-security.json
       config:
-        xsappname: new-incidents-${org}-${space}
+        xsappname: incidents-${org}-${space}
         tenant-mode: dedicated
+        scopes:
+          - name: $XSAPPNAME.PersonalDataManagerUser
+            description: Technial scope to restrict access to PDM endpoint of CAP
+            grant-as-authority-to-apps:
+              - $XSSERVICENAME(incidents-information)

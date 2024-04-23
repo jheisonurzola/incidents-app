@@ -2,21 +2,21 @@
     "dataPrivacyConfiguration": {
         "configType": "information",
         "applicationConfiguration": {
-            "applicationName": "new-incidents-information",
+            "applicationName": "incidents-information",
             "applicationDescription": "DPI NextGen Incidents CAP Reference Application",
             "applicationTitle": "DPI NextGen Incidents"
         },
         "informationConfiguration": {
             "applicationConfiguration": {
                 "dataSubjectDeletionAgent": "retention-manager",
-                "retentionApplicationName": "new-incidents-retention",
+                "retentionApplicationName": "incidents-retention",
                 "disableDataSubjectCorrection": true,
                 "cacheControl": "no-cache"
             },
             "components": [
                 {
-                    "componentName": "new-incidents-srv",
-                    "componentBaseURL": "https://cdsnode-cds-students-new-incidents-srv.cfapps.sap.hana.ondemand.com",
+                    "componentName": "incidents-srv",
+                    "componentBaseURL": "https://cdsnode-cds-students-incidents-srv.cfapps.sap.hana.ondemand.com",
                     "serviceEndPoints": [
                         {
                             "serviceName": "dpi-service",
