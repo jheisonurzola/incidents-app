@@ -1,12 +1,12 @@
-using {sap.capire.incidents as db} from '../db/schema';
+using {sap.capire.incidents as my} from '../db/schema';
 
 @requires: 'PersonalDataManagerUser' // security check
 service PDMService @(path: '/pdm') {
 
     // Data Privacy annotations on 'Customers' and 'Addresses' are derived from original entity definitions
-    entity Customers                as projection on db.Customers;
-    entity Addresses                as projection on db.Addresses;
-    entity Incidents                as projection on db.Incidents
+    entity Customers                as projection on my.Customers;
+    entity Addresses                as projection on my.Addresses;
+    entity Incidents                as projection on my.Incidents
 
     // create view on Incidents and Conversations as flat projection
     entity IncidentConversationView as
