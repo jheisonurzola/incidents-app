@@ -26,6 +26,8 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: incidents-db
+      - name: incidents-information
+      - name: incidents-auth
 
   - name: incidents-db-deployer
     type: hdb
@@ -41,3 +43,47 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: incidents-information
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: srv-api
+    parameters:
+      service-name: incidents-information
+      service: data-privacy-integration-service
+      service-plan: data-privacy-internal
+      config:
+        xs-security:
+          xsappname: incidents-information-${org}-${space}
+          authorities:
+            - $ACCEPT_GRANTED_AUTHORITIES
+        dataPrivacyConfiguration:
+          configType: information
+          applicationConfiguration:
+            applicationName: incidents-information
+            applicationDescription: DPI NextGen Incidents CAP Reference Application
+            applicationTitle: DPI NextGen Incidents
+          informationConfiguration:
+            applicationConfiguration:
+              dataSubjectDeletionAgent: retention-manager
+              retentionApplicationName: incidents-retention
+              disableDataSubjectCorrection: true
+              cacheControl: no-cache
+            components:
+              - componentName: incidents-srv
+                componentBaseURL: ~{srv-api/srv-url}
+                serviceEndPoints:
+                  - serviceName: dpi-service
+                    serviceFormat: odata-v4
+                    annotationFormat: v4
+                    serviceEndPoint: /pdm
+                    appPaginationEnabled: true
+                    cacheControl: no-cache
+  - name: incidents-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: incidents-${org}-${space}
+        tenant-mode: dedicated

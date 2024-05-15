@@ -14,7 +14,7 @@
   "dependencies": {
     "@sap/cds": ">=7",
     "@sap/cds-hana": "^2",
-    "@sap/xssec": "^3.6.1",
+    "@sap/xssec": "^3",
     "express": "^4"
   },
   "devDependencies": {
