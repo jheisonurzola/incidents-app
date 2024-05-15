@@ -9,6 +9,7 @@ annotate my.Customers with @PersonalData     : {
     lastName     @PersonalData.IsPotentiallyPersonal;
     email        @PersonalData.IsPotentiallyPersonal;
     phone        @PersonalData.IsPotentiallyPersonal;
+    dateOfBirth  @PersonalData.IsPotentiallyPersonal;
     creditCardNo @PersonalData.IsPotentiallySensitive;
 };
 

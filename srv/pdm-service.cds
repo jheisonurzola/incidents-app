@@ -13,8 +13,6 @@ service PDMService @(path: '/pdm') {
         select from Incidents {
                 ID,
                 title,
-                urgency,
-                status,
             key conversation.ID        as conversation_ID,
                 conversation.timestamp as conversation_timestamp,
                 conversation.author    as conversation_author,
@@ -34,7 +32,11 @@ service PDMService @(path: '/pdm') {
             surname: lastName,
             given  : firstName
         },
-        email: [{address: email}]
+        bday : dateOfBirth,
+        email: [{
+            type   : #preferred,
+            address: email
+        }]
     });
 
 };
