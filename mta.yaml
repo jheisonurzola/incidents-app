@@ -64,8 +64,6 @@ resources:
             applicationTitle: DPI NextGen Incidents
           informationConfiguration:
             applicationConfiguration:
-              dataSubjectDeletionAgent: retention-manager
-              retentionApplicationName: incidents-retention
               disableDataSubjectCorrection: true
               cacheControl: no-cache
             components:
