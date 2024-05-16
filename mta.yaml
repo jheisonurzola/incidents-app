@@ -1,5 +1,5 @@
 _schema-version: '3.1'
-ID: capire.incidents
+ID: capire.mt-incidents
 version: 1.0.0
 description: "A simple CAP project."
 parameters:
@@ -11,7 +11,7 @@ build-parameters:
         - npm ci
         - npx cds build --production
 modules:
-  - name: incidents-srv
+  - name: mt-incidents-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -25,41 +25,44 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-db
-      - name: incidents-information
-      - name: incidents-auth
+      - name: mt-incidents-information
+      - name: mt-incidents-auth
+      - name: mt-incidents-db
 
-  - name: incidents-db-deployer
-    type: hdb
-    path: gen/db
+  - name: incidents-mtx
+    type: nodejs
+    path: gen/mtx/sidecar
+    build-parameters:
+      builder: npm-ci
     parameters:
-      buildpack: nodejs_buildpack
+      memory: 256M
+      disk-quota: 512M
+    provides:
+      - name: mtx-api
+        properties:
+          mtx-url: ${default-url}
     requires:
-      - name: incidents-db
+      - name: mt-incidents-db
+      - name: mt-incidents-auth
 
 resources:
-  - name: incidents-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
-  - name: incidents-information
+  - name: mt-incidents-information
     type: org.cloudfoundry.managed-service
     requires:
       - name: srv-api
     parameters:
-      service-name: incidents-information
+      service-name: mt-incidents-information
       service: data-privacy-integration-service
       service-plan: data-privacy-internal
       config:
         xs-security:
-          xsappname: incidents-information-${org}-${space}
+          xsappname: mt-incidents-information-${org}-${space}
           authorities:
             - $ACCEPT_GRANTED_AUTHORITIES
         dataPrivacyConfiguration:
           configType: information
           applicationConfiguration:
-            applicationName: incidents-information
+            applicationName: mt-incidents-information
             applicationDescription: DPI NextGen Incidents CAP Reference Application
             applicationTitle: DPI NextGen Incidents
           informationConfiguration:
@@ -67,7 +70,7 @@ resources:
               disableDataSubjectCorrection: true
               cacheControl: no-cache
             components:
-              - componentName: incidents-srv
+              - componentName: mt-incidents-srv
                 componentBaseURL: ~{srv-api/srv-url}
                 serviceEndPoints:
                   - serviceName: dpi-service
@@ -76,12 +79,37 @@ resources:
                     serviceEndPoint: /pdm
                     appPaginationEnabled: true
                     cacheControl: no-cache
-  - name: incidents-auth
+  - name: mt-incidents-auth
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: incidents-${org}-${space}
+        xsappname: mt-incidents-${org}-${space}
         tenant-mode: dedicated
+  - name: mt-incidents-registry
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: mtx-api
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: mt-incidents-${org}-${space}
+        appName: mt-incidents-${org}-${space}
+        displayName: mt-incidents
+        description: A simple CAP project.
+        category: 'Category'
+        appUrls:
+          getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
+          onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
+          onSubscriptionAsync: true
+          onUnSubscriptionAsync: true
+          onUpdateDependenciesAsync: true
+          callbackTimeoutMillis: 300000 # Increase if your deployments are taking longer than that
+  - name: mt-incidents-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
