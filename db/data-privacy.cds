@@ -7,7 +7,7 @@ annotate my.Customers with @PersonalData     : {
     ID           @PersonalData.FieldSemantics: 'DataSubjectID';
     firstName    @PersonalData.IsPotentiallyPersonal;
     lastName     @PersonalData.IsPotentiallyPersonal;
-    email        @PersonalData.IsPotentiallyPersonal;
+    email        @PersonalData.IsPotentiallyPersonal  @Communication.IsEmailAddress;
     phone        @PersonalData.IsPotentiallyPersonal;
     dateOfBirth  @PersonalData.IsPotentiallyPersonal;
     creditCardNo @PersonalData.IsPotentiallySensitive;
